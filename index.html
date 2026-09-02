@@ -6,22 +6,18 @@
 <title>Quiz mit Nina</title>
 
 <style>
-*{
-cursor:none !important;
 
+*{
+    cursor:none !important;
 }
-    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-image: url("karte.png.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white;
-    text-align: center;
-    
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#111;
+    color:white;
+    text-align:center;
 }
-    
 
 .page{
     display:none;
@@ -33,6 +29,14 @@ cursor:none !important;
 
 #page1{
     padding-top:100px;
+}
+
+#page2{
+    background-image:url("karte.png.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    min-height:100vh;
 }
 
 button{
@@ -50,99 +54,94 @@ button{
     z-index:9999;
 }
 
-#mapContainer{
-    position:relative;
-    display:inline-block;
-}
-
-#mapContainer img{
-    width:90vw;
-    max-width:1200px;
-}
-
-/* UNSICHTBARER KLICKBEREICH FÜR 50A */
 #target{
     position:absolute;
 
+    /* HIER SPÄTER FÜR 50A ANPASSEN */
     top:38%;
     left:32%;
 
-    width:60px;
-    height:60px;
-
-    cursor:pointer;
+    width:80px;
+    height:80px;
 }
 
 #qr{
     display:none;
-    margin-top:30px;
+    margin-top:20px;
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:10px;
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
 }
+
 </style>
 </head>
+
 <body>
 
 <div id="fakeCursor"></div>
 
-<!-- SEITE 1 -->
+<!-- Seite 1 -->
 <div id="page1" class="page active">
+
     <h1>🔍 Find the button</h1>
-  
 
     <button id="hiddenButton">
         WEITER
     </button>
+
 </div>
 
-<!-- SEITE 2 -->
+<!-- Seite 2 -->
 <div id="page2" class="page">
-    <h1>📍 Find the right place </h1>
 
-    <div id="mapContainer">
+    <h1>📍 Find the right place</h1>
 
- 
-<div id="target"></div>
-
-</div>
+    <div id="target"></div>
 
     <div id="qr">
-        <h2>🎉 Congratulations you solved the quiz.</h2>
 
-        <img
-        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+        <h2>🎉 Congratulations, you solved the quiz.</h2>
 
-        <p>For more information scan the qr code    </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+
+        <p>For more information scan the QR code.</p>
+
+    </div>
+
 </div>
 
 <script>
 
-// Cursor verstecken
-document.body.style.cursor = "none";
-
 const fake = document.getElementById("fakeCursor");
 
+/* ROTEN CURSOR STARK VERSCHIEBEN */
 document.addEventListener("mousemove",(e)=>{
-    fake.style.left=(e.clientX+80)+"px";
-    fake.style.top=(e.clientY+40)+"px";
+    fake.style.left=(e.clientX+150)+"px";
+    fake.style.top=(e.clientY+80)+"px";
 });
 
-// Button weiter
+/* WEITER-KNOPF */
 document.getElementById("hiddenButton")
 .addEventListener("click",()=>{
 
-document.getElementById("page1")
-.classList.remove("active");
+    document.getElementById("page1")
+    .classList.remove("active");
 
-document.getElementById("page2")
-.classList.add("active");
+    document.getElementById("page2")
+    .classList.add("active");
 
 });
 
-// Klick auf 50A
+/* KLICK AUF 50A */
 document.getElementById("target")
 .addEventListener("click",()=>{
 
-document.getElementById("qr")
-.style.display="block";
+    document.getElementById("qr")
+    .style.display="block";
 
 });
 
