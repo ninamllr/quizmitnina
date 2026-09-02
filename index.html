@@ -6,7 +6,11 @@
 <title>Quiz mit Nina</title>
 
 <style>
-body{
+*{
+cursor:none !important;
+
+}
+    body{
     margin:0;
     font-family:Arial,sans-serif;
     background:#111;
@@ -87,21 +91,23 @@ button{
 
 <!-- SEITE 2 -->
 <div id="page2" class="page">
-    <h1>📍 Finde den richtigen Ort</h1>
+    <h1>📍 Finde the right place </h1>
 
     <div id="mapContainer">
-        karte.png
 
-        <div id="target"></div>
-    </div>
+<img src="karte.png" alt="Karte">
+ 
+<div id="target"></div>
+
+</div>
 
     <div id="qr">
-        <h2>🎉 Schatz gefunden!</h2>
+        <h2>🎉 You solved the quiz. Congratulations. You can find all the information, if you scann the QR code.</h2>
 
         <img
         src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
 
-        <p>Scanne    </div>
+        <p>Scan     </div>
 </div>
 
 <script>
