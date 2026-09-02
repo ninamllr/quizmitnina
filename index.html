@@ -14,9 +14,13 @@
 body{
     margin:0;
     font-family:Arial,sans-serif;
-    background:#111;
-    color:white;
+    background-image:url("karte.png.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
     text-align:center;
+    color:white;
+    min-height:100vh;
 }
 
 .page{
@@ -27,23 +31,7 @@ body{
     display:block;
 }
 
-#page1{
-    padding-top:100px;
-}
-
-#page2{
-    background-image:url("karte.png.png");
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    min-height:100vh;
-}
-
-button{
-    padding:15px 30px;
-    font-size:20px;
-}
-
+/* Roter Kreis */
 #fakeCursor{
     position:fixed;
     width:20px;
@@ -52,29 +40,101 @@ button{
     border-radius:50%;
     pointer-events:none;
     z-index:9999;
+    transform:translate(-50%,-50%);
 }
+
+/* Seite 1 */
+#page1{
+    padding-top:120px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:20px;
+    border:none;
+    border-radius:10px;
+}
+
+/* LABYRINTH */
+
+#maze{
+    position:relative;
+    width:500px;
+    height:300px;
+    margin:30px auto;
+    border:4px solid white;
+    background:rgba(0,0,0,0.6);
+}
+
+.wall{
+    position:absolute;
+    background:white;
+}
+
+.wallHorizontal{
+    position:absolute;
+    height:20px;
+    background:white;
+}
+
+#player{
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:red;
+    border-radius:50%;
+    left:20px;
+    top:20px;
+}
+
+#goal{
+    position:absolute;
+    width:30px;
+    height:30px;
+    background:lime;
+    right:20px;
+    bottom:20px;
+}
+
+#mazeSuccess{
+    display:none;
+    margin-top:20px;
+}
+
+/* Kartenseite */
+
+#page2{
+    padding-top:100px;
+}
+
+/* HIER SPÄTER DIE POSITION DEINES HAUSES ANPASSEN */
 
 #target{
     position:absolute;
 
-    /* HIER SPÄTER FÜR 50A ANPASSEN */
-    top:38%;
-    left:32%;
+    top:45%;
+    left:50%;
 
     width:80px;
     height:80px;
+
+    background:transparent;
 }
 
 #qr{
     display:none;
-    margin-top:20px;
-    background:white;
+    margin-top:30px;
+    background:rgba(255,255,255,0.9);
     color:black;
+    width:350px;
     padding:20px;
-    border-radius:10px;
-    width:fit-content;
+    border-radius:15px;
     margin-left:auto;
     margin-right:auto;
+}
+
+#qr img{
+    width:250px;
 }
 
 </style>
@@ -84,31 +144,83 @@ button{
 
 <div id="fakeCursor"></div>
 
-<!-- Seite 1 -->
+<!-- SEITE 1 -->
+
 <div id="page1" class="page active">
 
-    <h1>Find the button</h1>
+    <h1>🔍 Find the button</h1>
 
     <button id="hiddenButton">
-        BUTTON
+        WEITER
     </button>
 
 </div>
 
-<!-- Seite 2 -->
+<!-- LABYRINTH -->
+
+<div id="mazePage" class="page">
+
+    <h1>🧩 Escape the Maze</h1>
+
+    <p>Use the arrow keys.</p>
+
+    <div id="maze">
+
+        <div class="wall" style="left:100px; top:0; width:20px; height:250px;"></div>
+
+        <div class="wall" style="left:200px; top:100px; width:20px; height:250px;"></div>
+
+        <div class="wall" style="left:300px; top:0; width:20px; height:250px;"></div>
+
+        <div class="wallHorizontal" style="left:100px; top:250px; width:120px;"></div>
+
+        <div class="wallHorizontal" style="left:200px; top:100px; width:120px;"></div>
+
+        <div id="player"></div>
+
+        <div id="goal"></div>
+
+    </div>
+
+    <div id="mazeSuccess">
+
+        <h2>✅ Maze completed!</h2>
+
+        <button id="goToMap">
+            Continue
+        </button>
+
+    </div>
+
+</div>
+
+<!-- KARTENSEITE -->
+
 <div id="page2" class="page">
 
-    <h1>Find the right place</h1>
+    <h1>📍 Find the right place</h1>
 
     <div id="target"></div>
 
     <div id="qr">
 
-        <h2>🎉 Congratulations, you solved the quiz.</h2>
+        <h2>🎉 Congratulations!</h2>
 
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+        <p>You solved the quiz.</p>
 
-        <p>For more information scan the QR code.</p>
+        <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM"
+        alt="QR-Code">
+
+        <p>
+            Scan the QR code or use the link:
+        </p>
+
+        <a
+        href="https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM"
+        target="_blank">
+            Join WhatsApp Group
+        </a>
 
     </div>
 
@@ -116,31 +228,120 @@ button{
 
 <script>
 
-const fake = document.getElementById("fakeCursor");
+/ementById("fakeCursor");
 
-/* ROTEN CURSOR STARK VERSCHIEBEN */
 document.addEventListener("mousemove",(e)=>{
-    fake.style.left=(e.clientX+150)+"px";
-    fake.style.top=(e.clientY+80)+"px";
+    fake.style.left=e.clientX+"px";
+    fake.style.top=e.clientY+"px";
 });
 
-/* WEITER-KNOPF */
-document.getElementById("hiddenButton")
+/* Seite 1 -> Labyrinth */
+
+document
+.getElementById("hiddenButton")
 .addEventListener("click",()=>{
 
-    document.getElementById("page1")
+    document
+    .getElementById("page1")
     .classList.remove("active");
 
-    document.getElementById("page2")
+    document
+    .getElementById("mazePage")
     .classList.add("active");
 
 });
 
-/* KLICK AUF 50A */
-document.getElementById("target")
+/* Labyrinth */
+
+const player=document.getElementById("player");
+const goal=document.getElementById("goal");
+
+let x=20;
+let y=20;
+
+document.addEventListener("keydown",(e)=>{
+
+    if(
+        !document
+        .getElementById("mazePage")
+        .classList.contains("active")
+    ){
+        return;
+    }
+
+    if(e.key==="ArrowUp") y-=10;
+    if(e.key==="ArrowDown") y+=10;
+    if(e.key==="ArrowLeft") x-=10;
+    if(e.key==="ArrowRight") x+=10;
+
+    player.style.left=x+"px";
+    player.style.top=y+"px";
+
+    const playerRect=player.getBoundingClientRect();
+
+    document
+    .querySelectorAll(".wall,.wallHorizontal")
+    .forEach(wall=>{
+
+        const wallRect=wall.getBoundingClientRect();
+
+        if(
+            playerRect.left < wallRect.right &&
+            playerRect.right > wallRect.left &&
+            playerRect.top < wallRect.bottom &&
+            playerRect.bottom > wallRect.top
+        ){
+
+            x=20;
+            y=20;
+
+            player.style.left=x+"px";
+            player.style.top=y+"px";
+        }
+
+    });
+
+    const goalRect=goal.getBoundingClientRect();
+
+    if(
+        playerRect.left < goalRect.right &&
+        playerRect.right > goalRect.left &&
+        playerRect.top < goalRect.bottom &&
+        playerRect.bottom > goalRect.top
+    ){
+
+        document
+        .getElementById("mazeSuccess")
+        .style.display="block";
+
+    }
+
+});
+
+/* Labyrinth -> Karte */
+
+document
+.getElementById("goToMap")
 .addEventListener("click",()=>{
 
-    document.getElementById("qr")
+    document
+    .getElementById("mazePage")
+    .classList.remove("active");
+
+    document
+    .getElementById("page2")
+    .classList.add("active");
+
+});
+
+/* Karte -> QR */
+
+document
+.getElementById("target")
+.addEventListener("click",()=>{
+
+    document
+    .getElementById("qr")
     .style.display="block";
 
 });
