@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz mit Nina</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+
+.page{
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+#page1{
+    padding-top:100px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:20px;
+}
+
+#fakeCursor{
+    position:fixed;
+    width:20px;
+    height:20px;
+    border:3px solid red;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:9999;
+}
+
+#mapContainer{
+    position:relative;
+    display:inline-block;
+}
+
+#mapContainer img{
+    width:90vw;
+    max-width:1200px;
+}
+
+/* UNSICHTBARER KLICKBEREICH FÜR 50A */
+#target{
+    position:absolute;
+
+    top:38%;
+    left:32%;
+
+    width:60px;
+    height:60px;
+
+    cursor:pointer;
+}
+
+#qr{
+    display:none;
+    margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<div id="fakeCursor"></div>
+
+<!-- SEITE 1 -->
+<div id="page1" class="page active">
+    <h1>🔍 Finde den Knopf</h1>
+    <p>Etwas stimmt mit deinem Cursor nicht ...</p>
+
+    <button id="hiddenButton">
+        WEITER
+    </button>
+</div>
+
+<!-- SEITE 2 -->
+<div id="page2" class="page">
+    <h1>📍 Finde den richtigen Ort</h1>
+
+    <div id="mapContainer">
+        karte.png
+
+        <div id="target"></div>
+    </div>
+
+    <div id="qr">
+        <h2>🎉 Schatz gefunden!</h2>
+
+        <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+
+        <p>Scanne    </div>
+</div>
+
+<script>
+
+// Cursor verstecken
+document.body.style.cursor = "none";
+
+const fake = document.getElementById("fakeCursor");
+
+document.addEventListener("mousemove",(e)=>{
+    fake.style.left=(e.clientX+80)+"px";
+    fake.style.top=(e.clientY+40)+"px";
+});
+
+// Button weiter
+document.getElementById("hiddenButton")
+.addEventListener("click",()=>{
+
+document.getElementById("page1")
+.classList.remove("active");
+
+document.getElementById("page2")
+.classList.add("active");
+
+});
+
+// Klick auf 50A
+document.getElementById("target")
+.addEventListener("click",()=>{
+
+document.getElementById("qr")
+.style.display="block";
+
+});
+
+</script>
+
+</body>
+</html>
