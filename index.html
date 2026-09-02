@@ -19,6 +19,8 @@ body{
     text-align:center;
 }
 
+/* Seiten */
+
 .page{
     display:none;
 }
@@ -29,20 +31,25 @@ body{
 
 #page1{
     padding-top:100px;
+    min-height:100vh;
+    background:#111;
 }
 
 #page2{
+    min-height:100vh;
     background-image:url("karte.png.png");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
-    min-height:100vh;
 }
 
-button{
-    padding:15px 30px;
-    font-size:20px;
+#page3{
+    min-height:100vh;
+    background:#111;
+    padding-top:40px;
 }
+
+/* Cursor */
 
 #fakeCursor{
     position:fixed;
@@ -51,30 +58,70 @@ button{
     border:3px solid red;
     border-radius:50%;
     pointer-events:none;
-    z-index:9999;
+    z-index:99999;
+    left:0;
+    top:0;
 }
+
+/* Button */
+
+button{
+    padding:15px 30px;
+    font-size:20px;
+}
+
+/* Klickbereich auf der Karte */
 
 #target{
     position:absolute;
 
-    /* HIER SPÄTER FÜR 50A ANPASSEN */
-    top:38%;
-    left:32%;
+    /* MUSST DU SPÄTER GGF. ANPASSEN */
+    top:39%;
+    left:31%;
 
     width:80px;
     height:80px;
 }
 
+/* Labyrinth */
+
+#maze{
+    position:relative;
+    width:500px;
+    height:300px;
+    margin:40px auto;
+    border:4px solid white;
+    background:rgba(255,255,255,0.08);
+}
+
+#player{
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:red;
+    border-radius:50%;
+    left:20px;
+    top:140px;
+}
+
+#goal{
+    position:absolute;
+    width:30px;
+    height:30px;
+    background:lime;
+    right:20px;
+    top:135px;
+}
+
+/* QR */
+
 #qr{
     display:none;
-    margin-top:20px;
-    background:white;
-    color:black;
-    padding:20px;
-    border-radius:10px;
-    width:fit-content;
-    margin-left:auto;
-    margin-right:auto;
+    margin-top:40px;
+}
+
+#qr img{
+    width:250px;
 }
 
 </style>
@@ -85,63 +132,133 @@ button{
 <div id="fakeCursor"></div>
 
 <!-- Seite 1 -->
+
 <div id="page1" class="page active">
 
-    <h1>Find the button</h1>
+    <h1>🔍 Find the button</h1>
 
     <button id="hiddenButton">
-        BUTTON
+        WEITER
     </button>
 
 </div>
 
 <!-- Seite 2 -->
+
 <div id="page2" class="page">
 
-    <h1>Find the right place</h1>
+    <h1>📍 Find the right place</h1>
 
     <div id="target"></div>
 
-    <div id="qr">
+</div>
 
-        <h2>🎉 Congratulations, you solved the quiz.</h2>
+<!-- Seite 3 -->
 
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+<div id="page3" class="page">
 
-        <p>For more information scan the QR code.</p>
+    <h1>🧩 Reach the goal</h1>
 
+    <p>Use the arrow keys.</p>
+
+    <div id="maze">
+        <div id="player"></div>
+        <div id="goal"></div>
     </div>
+
+</div>
+
+<!-- QR Seite -->
+
+<div id="qr">
+
+    <h2>🎉 Congratulations!</h2>
+
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+
+    <p>Scan the QR code.</p>
 
 </div>
 
 <script>
 
+/* Cursor */
+
 const fake = document.getElementById("fakeCursor");
 
-/* ROTEN CURSOR STARK VERSCHIEBEN */
 document.addEventListener("mousemove",(e)=>{
-    fake.style.left=(e.clientX+150)+"px";
-    fake.style.top=(e.clientY+80)+"px";
+
+    fake.style.left = (e.clientX + 150) + "px";
+    fake.style.top = (e.clientY + 80) + "px";
+
 });
 
-/* WEITER-KNOPF */
-document.getElementById("hiddenButton")
+/* Seite 1 -> Seite 2 */
+
+document
+.getElementById("hiddenButton")
 .addEventListener("click",()=>{
 
-    document.getElementById("page1")
+    document
+    .getElementById("page1")
     .classList.remove("active");
 
-    document.getElementById("page2")
+    document
+    .getElementById("page2")
     .classList.add("active");
 
 });
 
-/* KLICK AUF 50A */
-document.getElementById("target")
+/* Karte -> Labyrinth */
+
+document
+.getElementById("target")
 .addEventListener("click",()=>{
 
-    document.getElementById("qr")
-    .style.display="block";
+    document
+    .getElementById("page2")
+    .classList.remove("active");
+
+    document
+    .getElementById("page3")
+    .classList.add("active");
+
+});
+
+/* Labyrinth */
+
+const player = document.getElementById("player");
+
+let x = 20;
+let y = 140;
+
+document.addEventListener("keydown",(e)=>{
+
+    if(!document.getElementById("page3").classList.contains("active")){
+        return;
+    }
+
+    if(e.key === "ArrowUp") y -= 10;
+    if(e.key === "ArrowDown") y += 10;
+    if(e.key === "ArrowLeft") x -= 10;
+    if(e.key === "ArrowRight") x += 10;
+
+    x = Math.max(0, Math.min(x, 470));
+    y = Math.max(0, Math.min(y, 270));
+
+    player.style.left = x + "px";
+    player.style.top = y + "px";
+
+    if(x > 430){
+
+        document
+        .getElementById("page3")
+        .style.display = "none";
+
+        document
+        .getElementById("qr")
+        .style.display = "block";
+    }
 
 });
 
@@ -149,3 +266,4 @@ document.getElementById("target")
 
 </body>
 </html>
+``
