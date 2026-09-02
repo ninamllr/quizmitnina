@@ -13,14 +13,30 @@
 
 body{
     margin:0;
+    font-family:Arial,sans-serif;
     background:#111;
     color:white;
-    font-family:Arial,sans-serif;
     text-align:center;
+}
+
+.page{
+    display:none;
+}
+
+.active{
+    display:block;
 }
 
 #page1{
     padding-top:100px;
+}
+
+#page2{
+    background-image:url("karte.png.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    min-height:100vh;
 }
 
 button{
@@ -35,9 +51,30 @@ button{
     border:3px solid red;
     border-radius:50%;
     pointer-events:none;
-    z-index:99999;
-    left:0;
-    top:0;
+    z-index:9999;
+}
+
+#target{
+    position:absolute;
+
+    /* HIER SPÄTER FÜR 50A ANPASSEN */
+    top:38%;
+    left:32%;
+
+    width:80px;
+    height:80px;
+}
+
+#qr{
+    display:none;
+    margin-top:20px;
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:10px;
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 </style>
@@ -47,22 +84,64 @@ button{
 
 <div id="fakeCursor"></div>
 
-<div id="page1">
-    <h1>🔍 Find the button</h1>
+<!-- Seite 1 -->
+<div id="page1" class="page active">
+
+    <h1>Find the button</h1>
 
     <button id="hiddenButton">
-        WEITER
+        BUTTON
     </button>
+
+</div>
+
+<!-- Seite 2 -->
+<div id="page2" class="page">
+
+    <h1>Find the right place</h1>
+
+    <div id="target"></div>
+
+    <div id="qr">
+
+        <h2>🎉 Congratulations, you solved the quiz.</h2>
+
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://chat.whatsapp.com/BgjMkvEjQd1BSOH6ocDOpM">
+
+        <p>For more information scan the QR code.</p>
+
+    </div>
+
 </div>
 
 <script>
 
 const fake = document.getElementById("fakeCursor");
 
-document.addEventListener("mousemove", function(e){
+/* ROTEN CURSOR STARK VERSCHIEBEN */
+document.addEventListener("mousemove",(e)=>{
+    fake.style.left=(e.clientX+150)+"px";
+    fake.style.top=(e.clientY+80)+"px";
+});
 
-    fake.style.left = (e.clientX + 150) + "px";
-    fake.style.top = (e.clientY + 80) + "px";
+/* WEITER-KNOPF */
+document.getElementById("hiddenButton")
+.addEventListener("click",()=>{
+
+    document.getElementById("page1")
+    .classList.remove("active");
+
+    document.getElementById("page2")
+    .classList.add("active");
+
+});
+
+/* KLICK AUF 50A */
+document.getElementById("target")
+.addEventListener("click",()=>{
+
+    document.getElementById("qr")
+    .style.display="block";
 
 });
 
