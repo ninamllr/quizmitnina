@@ -112,6 +112,10 @@ button{
     right:20px;
     top:135px;
 }
+    .wall{
+    position:absolute;
+    background:red;
+}
 
 /* QR */
 
@@ -256,6 +260,37 @@ document.addEventListener("keydown",(e)=>{
     x = Math.max(0, Math.min(x, 470));
     y = Math.max(0, Math.min(y, 270));
 
+    const playerRect = player.getBoundingClientRect();
+
+const walls = document.querySelectorAll(".wall");
+
+let collision = false;
+
+walls.forEach(wall=>{
+
+    const wallRect = wall.getBoundingClientRect();
+
+    if(
+        playerRect.left < wallRect.right &&
+        playerRect.right > wallRect.left &&
+        playerRect.top < wallRect.bottom &&
+        playerRect.bottom > wallRect.top
+    ){
+        collision = true;
+    }
+
+});
+
+if(collision){
+
+    x = 20;
+    y = 140;
+
+    player.style.left = x + "px";
+    player.style.top = y + "px";
+
+    return;
+}
     player.style.left = x + "px";
     player.style.top = y + "px";
 
