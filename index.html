@@ -272,98 +272,92 @@ const player = document.getElementById("player");
 let x = 20;
 let y = 140;
 
+function movePlayer(dx, dy){
+
+    x += dx;
+    y += dy;
+
+    x = Math.max(0, Math.min(x, 470));
+    y = Math.max(0, Math.min(y, 270));
+
+    player.style.left = x + "px";
+    player.style.top = y + "px";
+
+    const playerRect = player.getBoundingClientRect();
+
+    const walls = document.querySelectorAll(".wall");
+
+    let collision = false;
+
+    walls.forEach(wall=>{
+
+        const wallRect = wall.getBoundingClientRect();
+
+        if(
+            playerRect.left < wallRect.right &&
+            playerRect.right > wallRect.left &&
+            playerRect.top < wallRect.bottom &&
+            playerRect.bottom > wallRect.top
+        ){
+            collision = true;
+        }
+
+    });
+
+    if(collision){
+
+        x = 20;
+        y = 140;
+
+        player.style.left = x + "px";
+        player.style.top = y + "px";
+
+        return;
+    }
+
+    if(x > 430){
+
+        document.getElementById("page3").style.display = "none";
+
+        document.getElementById("qr").style.display = "block";
+    }
+
+}
 document.addEventListener("keydown",(e)=>{
 
     if(!document.getElementById("page3").classList.contains("active")){
         return;
     }
 
-    if(e.key === "ArrowUp") y -= 10;
-    if(e.key === "ArrowDown") y += 10;
-    if(e.key === "ArrowLeft") x -= 10;
-    if(e.key === "ArrowRight") x += 10;
+    if(e.key === "ArrowUp") movePlayer(0,-10);
 
-    x = Math.max(0, Math.min(x, 470));
-    y = Math.max(0, Math.min(y, 270));
+    if(e.key === "ArrowDown") movePlayer(0,10);
 
-    const playerRect = player.getBoundingClientRect();
+    if(e.key === "ArrowLeft") movePlayer(-10,0);
 
-const walls = document.querySelectorAll(".wall");
-
-let collision = false;
-
-walls.forEach(wall=>{
-
-    const wallRect = wall.getBoundingClientRect();
-
-    if(
-        playerRect.left < wallRect.right &&
-        playerRect.right > wallRect.left &&
-        playerRect.top < wallRect.bottom &&
-        playerRect.bottom > wallRect.top
-    ){
-        collision = true;
-    }
+    if(e.key === "ArrowRight") movePlayer(10,0);
 
 });
-
-if(collision){
-
-    x = 20;
-    y = 140;
-
-    player.style.left = x + "px";
-    player.style.top = y + "px";
-
-    return;
-}
-    player.style.left = x + "px";
-    player.style.top = y + "px";
-
-    if(x > 430){
-
-        document
-        .getElementById("page3")
-        .style.display = "none";
-
-        document
-        .getElementById("qr")
-        .style.display = "block";
-    }
-
-});
+    
 document.getElementById("upBtn")
 .addEventListener("click",()=>{
-
-    y -= 10;
-    player.style.top = y + "px";
-
+    movePlayer(0,-10);
 });
 
 document.getElementById("downBtn")
 .addEventListener("click",()=>{
-
-    y += 10;
-    player.style.top = y + "px";
-
+    movePlayer(0,10);
 });
 
 document.getElementById("leftBtn")
 .addEventListener("click",()=>{
-
-    x -= 10;
-    player.style.left = x + "px";
-
+    movePlayer(-10,0);
 });
 
 document.getElementById("rightBtn")
 .addEventListener("click",()=>{
-
-    x += 10;
-    player.style.left = x + "px";
-
+    movePlayer(10,0);
 });
-``
     
 </script>
 
