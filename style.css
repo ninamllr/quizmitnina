@@ -5,3 +5,13 @@ body {
     background-repeat: no-repeat;
     height: 100vh;
 }
+#controls{
+    margin-top:20px;
+}
+
+#controls button{
+    width:70px;
+    height:70px;
+    font-size:30px;
+    margin:5px;
+}
