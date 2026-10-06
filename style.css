@@ -30,3 +30,9 @@ body {
     height:100vh;
     z-index:1000;
 }
+#hiddenButton{
+    position:absolute;
+    top:75%;
+    left:20%;
+    z-index:2000;
+}
