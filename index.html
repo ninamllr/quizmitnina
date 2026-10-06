@@ -118,7 +118,14 @@ opacity:0.5;
     position:absolute;
     background:transparent;
 }
-
+.mark{
+    position:absolute;
+    width:6px;
+    height:6px;
+    background:white;
+    border-radius:50%;
+    opacity:0.8;
+}
 /* QR */
 
 #qr{
@@ -316,16 +323,27 @@ function movePlayer(dx, dy){
 
     });
 
-    if(collision){
+if(collision){
 
-        x = 20;
-        y = 140;
+    const mark = document.createElement("div");
 
-        player.style.left = x + "px";
-        player.style.top = y + "px";
+    mark.classList.add("mark");
 
-        return;
-    }
+    mark.style.left = x + "px";
+    mark.style.top = y + "px";
+
+    document
+        .getElementById("maze")
+        .appendChild(mark);
+
+    x = 20;
+    y = 140;
+
+    player.style.left = x + "px";
+    player.style.top = y + "px";
+
+    return;
+}
 
     if(x > 430){
 
