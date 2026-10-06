@@ -38,7 +38,7 @@ body{
 #page2{
     min-height:100vh;
     background-image:url("karte.png.png");
-    background-size:cover;
+    background-size:contain;
     background-position:center;
     background-repeat:no-repeat;
 }
@@ -228,8 +228,18 @@ const fake = document.getElementById("fakeCursor");
 
 document.addEventListener("mousemove",(e)=>{
 
-    fake.style.left = (e.clientX + 150) + "px";
-    fake.style.top = (e.clientY + 80) + "px";
+    if(document.getElementById("page1").classList.contains("active")){
+
+        fake.style.display = "block";
+
+        fake.style.left = (e.clientX + 150) + "px";
+        fake.style.top = (e.clientY + 80) + "px";
+
+    }else{
+
+        fake.style.display = "none";
+
+    }
 
 });
 
