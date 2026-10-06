@@ -332,7 +332,39 @@ if(collision){
     }
 
 });
+document.getElementById("upBtn")
+.addEventListener("click",()=>{
 
+    y -= 10;
+    player.style.top = y + "px";
+
+});
+
+document.getElementById("downBtn")
+.addEventListener("click",()=>{
+
+    y += 10;
+    player.style.top = y + "px";
+
+});
+
+document.getElementById("leftBtn")
+.addEventListener("click",()=>{
+
+    x -= 10;
+    player.style.left = x + "px";
+
+});
+
+document.getElementById("rightBtn")
+.addEventListener("click",()=>{
+
+    x += 10;
+    player.style.left = x + "px";
+
+});
+``
+    
 </script>
 
 </body>
