@@ -15,3 +15,10 @@ body {
     font-size:35px;
     margin:8px;
 }
+@media (hover:none){
+
+    #fakeCursor{
+        display:none;
+    }
+
+}
