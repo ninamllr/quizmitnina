@@ -249,7 +249,49 @@ document.addEventListener("mousemove",(e)=>{
 
 });
 
-/* Seite 1 -> Seite 2 */
+const canvas = document.getElementById("scratchCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+/* Schwarze Schicht */
+
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+function scratch(x,y){
+
+    ctx.globalCompositeOperation = "destination-out";
+
+    ctx.beginPath();
+    ctx.arc(x,y,40,0,Math.PI*2);
+    ctx.fill();
+
+}
+
+/* Laptop */
+
+canvas.addEventListener("mousemove",(e)=>{
+
+    scratch(e.clientX,e.clientY);
+
+});
+
+/* Handy */
+
+canvas.addEventListener("touchmove",(e)=>{
+
+    const touch = e.touches[0];
+
+    scratch(
+        touch.clientX,
+        touch.clientY
+    );
+
+});
+
+    /* Seite 1 -> Seite 2 */
 
 document
 .getElementById("hiddenButton")
